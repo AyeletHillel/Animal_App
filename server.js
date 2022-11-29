@@ -35,6 +35,7 @@ const {Schema, model} = mongoose
 
 // make animals schema 
 const animalsSchema = new Schema({
+    id: Number, 
     species: String,
     extinct: Boolean,
     location: String,
@@ -64,21 +65,21 @@ app.get("/", (req, res) => {
     res.send("your server is running... better catch it.")
 })
 
-app.get("/animals", (req, res) => {
-    Animal.find({})
-    .then((fruit) => {
-        res.render("animals/index.ejs", { Animal })
-    })
-})
+// index route
+app.get("/animals", async (req, res) => {
+    const animals = await Animal.find({});
+    res.render("animals/index.ejs", { animals });
+  });
+
 
 // Seeding our database
 app.get("/animals/seed", (req, res) => {
     // array of starter animals
     const startAnimals = [
-        { species: "Monkey", extinct: false, location: "Israel", lifeExpecancy: 23},
-        { species: "Bird", extinct: true, location: "Canada", lifeExpecancy: 6},
-        { species: "Dog", extinct: false, location: "USA", lifeExpecancy: 14},
-        { species: "Fish", extinct: false, location: "Panama", lifeExpecancy: 2}
+        { id: 1, species: "Monkey", extinct: false, location: "Israel", lifeExpecancy: 23},
+        { id: 2, species: "Bird", extinct: true, location: "Canada", lifeExpecancy: 6},
+        { id: 3, species: "Dog", extinct: false, location: "USA", lifeExpecancy: 14},
+        { id: 4, species: "Fish", extinct: false, location: "Panama", lifeExpecancy: 2}
 
     ]
     // Delete all animals

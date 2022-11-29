@@ -3,5 +3,20 @@
 <%- include("../partials/head.ejs") %>
 <body>
 <%- include("../partials/header.ejs") %>
+<main>
+    <div>
+      <% for (animal of animals) { %>
+
+      <article>
+        <a href="/animals/<%= animal.id %>">
+          <h2>
+            <%= animal.species %> 
+          </h2>
+        </a>
+      </article>
+
+      <% } %>
+    </div>
+  </main>
 </body>
 </html>
