@@ -34,8 +34,7 @@ mongoose.connection
 const {Schema, model} = mongoose
 
 // make animals schema 
-const animalsSchema = new Schema({
-    id: Number, 
+const animalsSchema = new Schema({ 
     species: String,
     extinct: Boolean,
     location: String,
@@ -71,15 +70,29 @@ app.get("/animals", async (req, res) => {
     res.render("animals/index.ejs", { animals });
   });
 
+// create route 
+//this is not working - new animal is not added to main page 
+app.post("/animals", (req, res) => {
+    req.body.extinct = req.body.extinct === "on" ? true : false 
+    console.log(req.body)
+    Animal.create(req.body, (err, animal) => {
+        res.redirect("/animals")
+    })
+})
+
+// new route
+app.get("/animals/new", (req, res) => {
+    res.render("animals/new.ejs")
+})
 
 // Seeding our database
 app.get("/animals/seed", (req, res) => {
     // array of starter animals
     const startAnimals = [
-        { id: 1, species: "Monkey", extinct: false, location: "Israel", lifeExpecancy: 23},
-        { id: 2, species: "Bird", extinct: true, location: "Canada", lifeExpecancy: 6},
-        { id: 3, species: "Dog", extinct: false, location: "USA", lifeExpecancy: 14},
-        { id: 4, species: "Fish", extinct: false, location: "Panama", lifeExpecancy: 2}
+        { species: "Monkey", extinct: false, location: "Israel", lifeExpecancy: 23},
+        { species: "Bird", extinct: true, location: "Canada", lifeExpecancy: 6},
+        { species: "Dog", extinct: false, location: "USA", lifeExpecancy: 14},
+        { species: "Fish", extinct: false, location: "Panama", lifeExpecancy: 2}
 
     ]
     // Delete all animals
@@ -91,6 +104,16 @@ app.get("/animals/seed", (req, res) => {
         })
     })
 })
+
+
+// show route
+app.get("/animals/:id", (req, res) => {
+    const id = req.params.id
+    Animal.findById(id, (err, animal) => {
+        res.render("animals/show.ejs", {animal})
+    })
+})
+
 //////////////////////////////////////////////
 // Server Listener
 //////////////////////////////////////////////

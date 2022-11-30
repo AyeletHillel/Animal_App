@@ -5,16 +5,16 @@
 <%- include("../partials/header.ejs") %>
 <main>
     <div>
+        <a href="/animals/new"><button>Create new Animal</button></a>
       <% for (animal of animals) { %>
 
       <article>
-        <a href="/animals/<%= animal.id %>">
+        <a href="/animals/<%= animal._id %>">
           <h2>
             <%= animal.species %> 
           </h2>
         </a>
       </article>
-
       <% } %>
     </div>
   </main>
